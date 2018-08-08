@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+    pre {
+      display: block;
+      padding: 9.5px;
+      margin: 0 0 10px;
+      font-size: 13px;
+      line-height: 1.42857143;
+      color: #333;
+      word-break: break-all;
+      word-wrap: break-word;
+      background-color: #f5f5f5;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    </style>
+  </head>
+  <body>
+
+    <pre>
+      Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+
+      Strings consists of lowercase English letters only and the length of both strings s and p will not be larger than 20,100.
+
+      The order of output does not matter.
+
+      Example 1:
+
+      Input:
+      s: "cbaebabacd" p: "abc"
+
+      Output:
+      [0, 6]
+
+      Explanation:
+      The substring with start index = 0 is "cba", which is an anagram of "abc".
+      The substring with start index = 6 is "bac", which is an anagram of "abc".
+    </pre>
+
+    <h1> Solution </h1>
+
+    <pre>
+      function findAllAnagramsInString(s, p){
+
+        let table = {};
+        for(let chr of p){
+          if(!table[chr]) {table[chr] = 0}
+          table[chr] = table[chr] + 1;
+        }
+
+        let end = 0;
+        let begin = 0;
+        let wordSize = p.length;
+        let counter = Object.keys(table).length;
+        let ans = [];
+
+        if(s.length < p.length || s.length == 0) return ans;
+
+        while(end < s.length){
+          let endChar = s[end];
+
+          if(table.hasOwnProperty(endChar)){
+              table[endChar] = table[endChar] - 1;
+              if(table[endChar] == 0) counter--;
+          }
+
+          end++;
+
+          while(counter == 0){
+
+            if(end - begin == wordSize){
+              ans.push(begin);
+            }
+
+            let startChar = s[begin]
+
+            if(table.hasOwnProperty(startChar)){
+              table[startChar] = table[startChar] + 1;
+              if(table[startChar] > 0) counter++;
+            }
+
+            begin++;
+
+          }
+
+        }
+
+        return ans;
+      }
+
+      let s = "cbaebabacd";
+      let p = "abc";
+      console.log(findAllAnagramsInString(s, p));
+    </pre>
+
+  </body>
+
+<script type="text/javascript">
+
+
+  function findAllAnagramsInString(s, p){
+
+    let table = {};
+    for(let chr of p){
+      if(!table[chr]) {table[chr] = 0}
+      table[chr] = table[chr] + 1;
+    }
+
+    let end = 0;
+    let begin = 0;
+    let wordSize = p.length;
+    let counter = Object.keys(table).length;
+    let ans = [];
+
+    if(s.length < p.length || s.length == 0) return ans;
+
+    while(end < s.length){
+      let endChar = s[end];
+
+      if(table.hasOwnProperty(endChar)){
+          table[endChar] = table[endChar] - 1;
+          if(table[endChar] == 0) counter--;
+      }
+
+      end++;
+
+      while(counter == 0){
+
+        if(end - begin == wordSize){
+          ans.push(begin);
+        }
+
+        let startChar = s[begin]
+
+        if(table.hasOwnProperty(startChar)){
+          table[startChar] = table[startChar] + 1;
+          if(table[startChar] > 0) counter++;
+        }
+
+        begin++;
+
+      }
+
+    }
+
+    return ans;
+  }
+
+  let s = "cbaebabacd";
+  let p = "abc";
+  console.log(findAllAnagramsInString(s, p));
+
+</script>
+</html>
