@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+
+  <script type="text/javascript">
+
+    // let words = ['foo', 'bar'];
+    // let s = "barfoothefoobarman";
+  // let s = "barfoofoobarthefoobarman"
+  // let words = ["bar","foo","the"]
+
+  let s = "ababaab"
+let words = ["ab","ba","ba"]
+  let table = {};
+
+    let windowSize = words.reduce((acc, val) => acc + val.length, 0);
+    words.forEach((val, index) => {
+      if(!table[val]){table[val] = 0}
+      table[val]++;
+    });
+
+    console.log(table);
+
+    let end = 0;
+    let begin = 0;
+    let wordSize = words[0].length;
+    let refTable = Object.assign({}, table);
+    let counter = Object.keys(table).length;
+
+    let ans = [];
+    let indu = [];
+    let diff = 0;
+
+    for(let i = 0; i < wordSize; i++){
+      begin = i;
+      end = i;
+      table = refTable;
+      counter = Object.keys(table).length;
+
+      while(end + wordSize - 1 < s.length){
+        let lastWord = s.slice(end, wordSize + end);
+        console.log(lastWord)
+        if(table.hasOwnProperty(lastWord)){
+          table[lastWord] = table[lastWord] - 1;
+          if(table[lastWord] == 0) counter--;
+        }
+
+        if(end + wordSize - begin == windowSize){
+          if(counter == 0){
+            ans.push(begin)
+          }
+
+          let firstChar = s.slice(begin, wordSize + begin)
+
+          if(table.hasOwnProperty(firstChar)){
+
+            table[firstChar]++;
+            if(table[firstChar] > 0) counter++;
+          }
+          begin += wordSize
+        }
+
+        end += wordSize
+      }
+
+    }
+
+    console.log(ans);
+
+  </script>
+</html>
